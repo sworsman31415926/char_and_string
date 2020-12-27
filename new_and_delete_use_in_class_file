@@ -1,0 +1,35 @@
+c++ new的用法
+
+在c++中new是用来申请一块空间，值得注意的是：平时我们使用的声明变量申请空间都是在“栈”中，这些空间不需要程序员来管理，在使用完之后会自动释放这些空间；而使用new来申请一块空间，这块空间在“堆”上开辟，使用完后必须由程序员手动释放，否则严重时候会造成"内存泄漏"(这是指只要程序在运行，不断的开辟空间而不释放，空间不断被占用使可用空间越来越少，最终导致内存泄漏！如果程序退出。系统会自动回收这部分空间，但是注意，这是系统完成而不是程序完成)。
+
+所以一个好的使用习惯是使用完new开辟的空间后应该手动释放(对于c语言来说，malloc也是在“堆”上开辟空间)。
+
+补充：c语言中malloc申请空间的同时不能初始化，通过free释放。c++中new申请空间的同时可以初始化，通过delete释放。
+
+复制代码
+#include<iostream>
+using std::cout;
+using std::endl;
+using std::string;
+
+class MyClass{
+public:
+    struct Student{
+        int sno;//学号
+        string name;//姓名
+        int grade;//成绩
+    };
+};
+void main(void)
+{
+    //主要体会new的用法
+    //1.创建类的对象
+    MyClass  *myClass = new MyClass;//myClass指向申请空间的首地址
+    MyClass::Student student;//创建结构体对象
+    student.sno = 1;
+    student.name = "张三";
+    student.grade = 90;
+    //输出
+    delete  myClass;//安全考虑new申请的空间必须释放
+}
+复制代码
